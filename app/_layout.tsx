@@ -5,8 +5,18 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
+import { useColorScheme } from '../components/useColorScheme';
+import { UserProvider } from "@/contexts/UserContext";
+import { CharacterProvider } from '@/contexts/CharacterContext';
+import {
+  Orbitron_400Regular,
+  Orbitron_600SemiBold,
+} from '@expo-google-fonts/orbitron';
+import {
+  Exo2_400Regular,
+  Exo2_700Bold,
+} from '@expo-google-fonts/exo-2';
 
-import { useColorScheme } from '@/components/useColorScheme';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -47,13 +57,27 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
+  let [fontsLoaded] = useFonts({
+    Orbitron_400Regular,
+    Orbitron_600SemiBold,
+    Exo2_400Regular,
+    Exo2_700Bold,
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-      </Stack>
-    </ThemeProvider>
+    <UserProvider>
+      <CharacterProvider>
+        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="(auth)/login" />
+            <Stack.Screen name="(tabs)" />
+          </Stack>
+        </ThemeProvider>
+      </CharacterProvider>
+    </UserProvider>
   );
 }

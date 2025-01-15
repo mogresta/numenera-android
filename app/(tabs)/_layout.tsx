@@ -24,7 +24,15 @@ export default function TabLayout() {
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         // Disable the static render of the header on web
         // to prevent a hydration error in React Navigation v6.
-        headerShown: useClientOnlyValue(false, true),
+        headerShown: false,//useClientOnlyValue(false, true),
+        tabBarStyle: { display: 'none' },
+        headerTitleAlign: 'center',
+        headerStyle: {
+          backgroundColor: '#1a2151',
+        },
+        headerTitleStyle: {
+          color: '#fff',
+        },
       }}>
       <Tabs.Screen
         name="index"
@@ -52,6 +60,20 @@ export default function TabLayout() {
         options={{
           title: 'Tab Two',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="character-update/[id]"
+        options={{
+          title: 'Update Character',
+          tabBarButton: () => null,
+        }}
+      />
+      <Tabs.Screen
+        name="user-update/[id]"
+        options={{
+          title: 'Edit Profile',
+          tabBarButton: () => null,
         }}
       />
     </Tabs>
