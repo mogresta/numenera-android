@@ -1,23 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, Pressable, ActivityIndicator, Alert } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
+import { LinearGradient } from 'expo-linear-gradient';
 import styles from '@/constants/Styles';
-import { useCharacterEdit } from '@/contexts/CharacterContext';
-import BackButton from "@/components/BackButton";
-import {apiService} from "@/services/api.service";
+import { apiService } from '@/services/api.service';
+import { useUser } from '@/contexts/UserContext';
 import {CharacterTypeNames, CharacterTypes} from "@/enums/characterType.enum";
 import Select from "@/components/Select";
 
-export default function CharacterUpdate() {
-  const { editingCharacter, setEditingCharacter } = useCharacterEdit();
-  const [name, setName] = useState(editingCharacter?.name || '');
-  const [description, setDescription] = useState(editingCharacter?.description || '');
-  const [tier, setTier] = useState(editingCharacter?.tier?.toString() || '');
+export default function CharacterCreate() {
+  const { user } = useUser();
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [tier, setTier] = useState('1'); //default tier 1
   const [loading, setLoading] = useState(false);
-  const [characterType, setCharacterType] = useState<CharacterTypes>(
-    editingCharacter?.characterType || CharacterTypes.GLAIVE
-  );
+  const [characterType, setCharacterType] = useState<CharacterTypes>(CharacterTypes.GLAIVE);
 
   const characterTypeOptions = Object.values(CharacterTypes)
     .filter(value => !isNaN(Number(value)))
@@ -26,44 +23,25 @@ export default function CharacterUpdate() {
       label: CharacterTypeNames[value as CharacterTypes]
     }));
 
-  useEffect(() => {
-    return () => {
-      setEditingCharacter(null);
-    };
-  }, []);
-
-  const handleUpdate = async () => {
-    if (!editingCharacter?.id) return;
-
+  const handleCreate = async () => {
     try {
       setLoading(true);
-      await apiService.updateCharacter(editingCharacter.id, {
+      await apiService.createCharacter({
         name,
         description,
         tier,
         characterType,
+        user: user?.id
       });
-      Alert.alert('Success', 'Character updated successfully');
+      Alert.alert('Success', 'Character created successfully');
       router.back();
     } catch (error) {
-      console.error('Failed to update character:', error);
-      Alert.alert('Error', 'Failed to update character');
+      console.error('Failed to create character:', error);
+      Alert.alert('Error', 'Failed to create character');
     } finally {
       setLoading(false);
     }
   };
-
-  if (loading) {
-    return (
-      <View style={styles.container}>
-        <LinearGradient
-          colors={['#1a2151', '#0a0f2d']}
-          style={styles.background}
-        />
-        <ActivityIndicator size="large" color="#fff" />
-      </View>
-    );
-  }
 
   return (
     <View style={styles.container}>
@@ -71,9 +49,8 @@ export default function CharacterUpdate() {
         colors={['#1a2151', '#0a0f2d']}
         style={styles.background}
       />
-      <BackButton />
       <View style={styles.contentContainer}>
-        <Text style={styles.title}>Update Character</Text>
+        <Text style={styles.title}>Create Character</Text>
 
         <Text style={styles.text}>Name</Text>
         <TextInput
@@ -114,13 +91,13 @@ export default function CharacterUpdate() {
 
         <Pressable
           style={styles.buttonContainer}
-          onPress={handleUpdate}
+          onPress={handleCreate}
           disabled={loading}
         >
           {loading ? (
             <ActivityIndicator color="#fff" />
           ) : (
-            <Text style={styles.buttonText}>Update Character</Text>
+            <Text style={styles.buttonText}>Create Character</Text>
           )}
         </Pressable>
       </View>

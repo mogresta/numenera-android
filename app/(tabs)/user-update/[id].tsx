@@ -3,9 +3,9 @@ import { View, Text, TextInput, Pressable, ActivityIndicator, Alert } from 'reac
 import { router } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import styles from '@/constants/Styles';
-import { authService } from '@/services/auth.service';
 import { useUser } from '@/contexts/UserContext';
 import BackButton from "@/components/BackButton";
+import {apiService} from "@/services/api.service";
 
 export default function UserUpdate() {
   const { user, setUser } = useUser();
@@ -16,7 +16,7 @@ export default function UserUpdate() {
     if (!user?.id) return;
     try {
       setLoading(true);
-      const updatedUser = await authService.updateUsername(user.id, username);
+      const updatedUser = await apiService.updateUsername(user.id, username);
       setUser(updatedUser); // Update the global user context
       router.back();
       Alert.alert('Success', 'Profile updated successfully');

@@ -5,7 +5,8 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
-import { useColorScheme } from '../components/useColorScheme';
+import { AuthCheck } from '@/components/AuthCheck';
+import { useColorScheme } from '@/components/useColorScheme';
 import { UserProvider } from "@/contexts/UserContext";
 import { CharacterProvider } from '@/contexts/CharacterContext';
 import {
@@ -76,6 +77,7 @@ function RootLayoutNav() {
             <Stack.Screen name="(auth)/login" />
             <Stack.Screen name="(tabs)" />
           </Stack>
+          <AuthCheck />
         </ThemeProvider>
       </CharacterProvider>
     </UserProvider>

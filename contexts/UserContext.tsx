@@ -13,15 +13,12 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    // Load saved user data on mount
-    loadStoredUser();
-  }, []);
-
   const loadStoredUser = async () => {
     try {
+      const userToken = await AsyncStorage.getItem('userToken');
       const userData = await AsyncStorage.getItem('userData');
-      if (userData) {
+
+      if (userToken && userData) {
         setUser(JSON.parse(userData));
       }
     } catch (error) {
@@ -29,7 +26,11 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     } finally {
       setIsLoading(false);
     }
-  };
+  }
+
+  useEffect(() => {
+    loadStoredUser();
+  }, []);
 
   const updateUser = async (newUser: User | null) => {
     if (newUser) {

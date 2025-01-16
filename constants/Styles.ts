@@ -24,11 +24,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   card: {
-    backgroundColor: 'rgba(255, 255, 255, 0.08)',
     fontFamily: 'Exo2_300Light',
+    fontSize: 18,
+    backgroundColor: 'rgba(255, 255, 255, 0.08)',
     borderRadius: 15,
-    padding: 20,
-    marginVertical: 10,
+    padding: 15,
+    marginVertical: 8,
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.1)',
     shadowColor: '#000',
@@ -43,20 +44,15 @@ const styles = StyleSheet.create({
   text: {
     color: '#e4e4ff',
     fontFamily: 'Exo2_400Regular',
-    fontSize: 16,
+    fontSize: 18,
     lineHeight: 24,
   },
-  textLarge: {
+  welcomeText: {
     color: '#e4e4ff',
     fontFamily: 'Exo2_400Regular',
     fontSize: 24,
     lineHeight: 24,
-  },
-  buttonText: {
-    color: '#ffffff',
-    fontFamily: 'Orbitron_600SemiBold',
-    fontSize: 16,
-    fontWeight: '600',
+    textAlign: 'center',
   },
   input: {
     backgroundColor: 'rgba(255, 255, 255, 0.05)',
@@ -83,13 +79,8 @@ const styles = StyleSheet.create({
   badgeText: {
     fontFamily: 'Orbitron_600SemiBold',
     color: '#b4b8ff',
-    fontSize: 14,
+    fontSize: 18,
     fontWeight: '500',
-  },
-  characterRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
   },
   textArea: {
     height: 100,
@@ -106,12 +97,6 @@ const styles = StyleSheet.create({
   cardContent: {
     gap: 8,
   },
-  characterName: {
-    fontFamily: 'Orbitron_600SemiBold',
-    fontSize: 20,
-    fontWeight: '600',
-    color: '#e4e4ff',
-  },
   tierContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -120,12 +105,12 @@ const styles = StyleSheet.create({
   label: {
     fontFamily: 'Orbitron_600SemiBold',
     color: '#b4b8ff',
-    fontSize: 14,
+    fontSize: 18,
     fontWeight: '500',
   },
   description: {
     color: '#e4e4ff',
-    fontSize: 14,
+    fontSize: 18,
     lineHeight: 20,
     fontFamily: 'Exo2_400Regular',
   },
@@ -142,7 +127,7 @@ const styles = StyleSheet.create({
   },
   deleteButton: {
     fontFamily: 'Orbitron_600SemiBold',
-    backgroundColor: '#dc3545',  // Red color for delete
+    backgroundColor: '#dc3545',
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 8,
@@ -160,7 +145,7 @@ const styles = StyleSheet.create({
   backButtonText: {
     fontFamily: 'Orbitron_600SemiBold',
     color: '#fff',
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '600',
   },
   userInfoContainer: {
@@ -168,8 +153,8 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     padding: 20,
     marginBottom: 20,
-    width: '90%', // Makes it narrower than the full width
-    alignSelf: 'center', // Centers it horizontally
+    width: '90%',
+    alignSelf: 'center',
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.1)',
     shadowColor: '#000',
@@ -181,7 +166,226 @@ const styles = StyleSheet.create({
     shadowRadius: 4.65,
     elevation: 8,
   },
+  contentContainer: {
+    flex: 1,
+    padding: 20,
+    paddingTop:40,
+  },
+  searchInput: {
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    borderRadius: 10,
+    padding: 15,
+    color: '#ffffff',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
+    marginVertical: 8,
+  },
+  filtersContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginVertical: 10,
+    gap: 10,
+  },
+  tableContainer: {
+    flex: 1,
+    marginTop: 10,
+  },
+  tableRow: {
+    flexDirection: 'row',
+    borderBottomWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
+    paddingVertical: 12,
+  },
+  tableHeader: {
+    color: '#b4b8ff',
+    fontWeight: '600',
+    fontSize: 18,
+  },
+  tableCell: {
+    color: '#e4e4ff',
+    fontSize: 18,
+  },
+  nameColumn: {
+    flex: 2,
+  },
+  typeColumn: {
+    flex: 1,
+  },
+  sourceColumn: {
+    flex: 1,
+  },
+  planTypeColumn: {
+    flex: 1,
+  },
+  modalCloseButton: {
+    marginTop: 15,
+    padding: 15,
+    backgroundColor: '#3d4db7',
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  modalCloseButtonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: '600',
+  },
+  filterButton: {
+    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
+    marginVertical: 4,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  filterButtonText: {
+    color: '#e4e4ff',
+    fontSize: 18,
+    fontFamily: 'Orbitron_600SemiBold',
+  },
+  selectContainer: {
+    marginVertical: 8,
+  },
+  pickerContainer: {
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
+    marginTop: 4,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4.65,
+    elevation: 8,
+  },
+  picker: {
+    color: '#e4e4ff',
+    height: 50,
+    fontFamily: 'Exo2_400Regular',
+    backgroundColor: 'transparent',
+  },
+  selectButton: {
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    borderRadius: 10,
+    padding: 15,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4.65,
+    elevation: 8,
+  },
+  selectButtonText: {
+    color: '#e4e4ff',
+    fontSize: 18,
+    fontFamily: 'Exo2_400Regular',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    backgroundColor: '#1a2151',
+    padding: 20,
+    borderRadius: 15,
+    width: '80%',
+    maxHeight: '80%',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
+  },
+  modalTitle: {
+    color: '#e4e4ff',
+    fontSize: 20,
+    fontFamily: 'Orbitron_600SemiBold',
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+  modalItem: {
+    padding: 15,
+    borderRadius: 8,
+    marginVertical: 5,
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+  },
+  modalItemSelected: {
+    backgroundColor: '#3d4db7',
+  },
+  modalItemText: {
+    color: '#e4e4ff',
+    fontSize: 18,
+    fontFamily: 'Exo2_400Regular',
+  },
+  modalItemTextSelected: {
+    color: '#ffffff',
+    fontWeight: '600',
+  },
+  sectionContainer: {
+    marginBottom: 20,
+  },
+  sectionTitle: {
+    color: '#e4e4ff',
+    fontSize: 20,
+    fontFamily: 'Orbitron_600SemiBold',
+    marginBottom: 10,
+  },
+  statusColumn: {
+    flex: 1.5,
+  },
+  loanedRow: {
+    backgroundColor: 'rgba(61, 77, 183, 0.1)',
+  },
+  loanedText: {
+    color: '#8f97ff',
+    fontStyle: 'italic',
+  },
+  expendedRow: {
+    opacity: 0.6,
+  },
+  characterRow: {
+    justifyContent: 'space-between',
+    gap: 10,
+  },
+  characterInfo: {
+    gap: 5,
+    marginBottom: 15,
+  },
+  characterName: {
+    color: '#e4e4ff',
+    fontSize: 18,
+    fontFamily: 'Orbitron_600SemiBold',
+  },
+  characterType: {
+    color: '#b4b8ff',
+    fontSize: 18,
+    fontFamily: 'Exo2_400Regular',
+  },
+  characterTier: {
+    color: '#b4b8ff',
+    fontSize: 18,
+    fontFamily: 'Exo2_400Regular',
+  },
+  characterDescription: {
+    color: '#e4e4ff',
+    fontSize: 18,
+    fontFamily: 'Exo2_400Regular',
+    marginTop: 5,
+  },
   buttonContainer: {
+    gap: 8,
     backgroundColor: '#3d4db7',
     borderRadius: 12,
     padding: 20,
@@ -196,11 +400,22 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
-  contentContainer: {
-    flex: 1,
-    padding: 20,
-    paddingTop:40,
+  actionButton: {
+    backgroundColor: '#3d4db7',
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    minWidth: 80,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#ffffff',
+    fontFamily: 'Orbitron_600SemiBold',
+    fontSize: 18,
+    fontWeight: '600',
   },
 });
 

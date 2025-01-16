@@ -1,6 +1,8 @@
 import { Text, View } from 'react-native';
 import styles from '@/constants/Styles';
 import { useUser } from '@/contexts/UserContext';
+import {useFocusEffect} from "@react-navigation/native";
+import {useCallback} from "react";
 
 const UserData = () => {
     const { user } = useUser();

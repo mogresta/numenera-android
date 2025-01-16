@@ -35,6 +35,14 @@ const UserProfile = () => {
     }
   }
 
+  const handleShowItemsTable = () => {
+    router.push('/(tabs)/items');
+  }
+
+  const handleGroupInventoryTable = () => {
+    router.push('/(tabs)/group-items');
+  }
+
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -42,9 +50,9 @@ const UserProfile = () => {
         style={styles.background}
       />
       <View style={styles.contentContainer}>
-        <Text style={styles.title}>User Profile</Text>
         <View style={styles.userInfoContainer}>
-        <Text style={styles.textLarge}>Welcome, {user.username}</Text>
+          <Text style={styles.title}>User Profile</Text>
+        <Text style={styles.welcomeText}>Welcome, {user.username}</Text>
         <UserData />
         <Pressable
           style={styles.buttonContainer}
@@ -62,6 +70,24 @@ const UserProfile = () => {
         <View style={styles.userInfoContainer}>
           <Text style={styles.title}>Characters</Text>
           <UserCharacters />
+        </View>
+        <View style={styles.userInfoContainer}>
+          <Text style={styles.title}>Items</Text>
+          <Pressable
+            style={styles.buttonContainer}
+            onPress={handleShowItemsTable}
+          >
+            <Text style={styles.buttonText}>All Items</Text>
+          </Pressable>
+        </View>
+        <View style={styles.userInfoContainer}>
+          <Text style={styles.title}>Group Inventory</Text>
+          <Pressable
+            style={styles.buttonContainer}
+            onPress={handleGroupInventoryTable}
+          >
+            <Text style={styles.buttonText}>Show Group Inventory</Text>
+          </Pressable>
         </View>
       </View>
     </View>

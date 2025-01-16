@@ -56,13 +56,6 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="two"
-        options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-        }}
-      />
-      <Tabs.Screen
         name="character-update/[id]"
         options={{
           title: 'Update Character',
@@ -70,9 +63,30 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="character-inventory/[id]"
+        options={{
+          title: 'Character Inventory',
+          tabBarButton: () => null,
+        }}
+      />
+      <Tabs.Screen
         name="user-update/[id]"
         options={{
           title: 'Edit Profile',
+          tabBarButton: () => null,
+        }}
+      />
+      <Tabs.Screen
+        name="character-create"
+        options={{
+          title: 'Create Character',
+          tabBarButton: () => null,
+        }}
+      />
+      <Tabs.Screen
+        name="group-items"
+        options={{
+          title: 'Group Inventory',
           tabBarButton: () => null,
         }}
       />

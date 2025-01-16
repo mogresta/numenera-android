@@ -10,6 +10,7 @@ export default function MainScreen() {
         colors={['#1a2151', '#0a0f2d']}
         style={styles.background}
       />
+
        <UserProfile />
     </View>
   );

@@ -30,14 +30,21 @@ export default function LoginScreen() {
       }
 
       setUser(response.user);
+
       await new Promise(resolve => setTimeout(resolve, 100));
       router.replace('/(tabs)');
 
-    } catch (error) {
-      if (error instanceof Error) {
-        Alert.alert('Login Failed', error.message || 'An error occurred');
+    } catch (error: any) {
+      if (error.response?.status === 401) {
+        Alert.alert(
+          'Login Failed',
+          'Incorrect username or password. Please try again.'
+        );
       } else {
-        Alert.alert('Login Failed', 'An unknown error occurred');
+        Alert.alert(
+          'Login Error',
+          'An error occurred while trying to log in. Please try again.'
+        );
       }
     } finally {
       setLoading(false);
