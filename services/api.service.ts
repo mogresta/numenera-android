@@ -2,7 +2,7 @@ import client from '../api/Client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { UpdateUsernameResponse, User} from '@/interfaces/user.interface';
 import Character from '@/interfaces/character.interface';
-import { ItemResponse} from "@/interfaces/item.interface";
+import {ItemResponse, ItemsResponse} from "@/interfaces/item.interface";
 import {Sources} from "@/enums/source.enum";
 import {Types} from "@/enums/type.enum";
 import {PlanTypes} from "@/enums/planType.enum";
@@ -61,7 +61,7 @@ export const apiService = {
     }
   },
 
-  async getItems(sources: Sources[] = [], types: Types[] = [], planTypes: PlanTypes[] = []): Promise<ItemResponse> {
+  async getItems(sources: Sources[] = [], types: Types[] = [], planTypes: PlanTypes[] = []): Promise<ItemsResponse> {
     try {
       const response = await client.get('/items/all', {
         params: {
@@ -99,12 +99,23 @@ export const apiService = {
     }
   },
 
-  async searchItems(name: string): Promise<ItemResponse> {
+  async searchItems(name: string): Promise<ItemsResponse> {
     try {
       const response = await client.post('/items/search', { name: name });
       return response.data;
     } catch (error) {
       console.error('Error searching items:', error);
+      throw error;
+    }
+  },
+
+  async getItem(id: number): Promise<ItemResponse> {
+    try {
+      const response = await client.get(`/items/${id}`);
+
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching inventory items:', error);
       throw error;
     }
   },
@@ -117,5 +128,45 @@ export const apiService = {
       console.error('Error creating character:', error);
       throw error;
     }
+  },
+
+  async addItemToGroupInventory(itemId: number) {
+    const response = await client.post('/group-inventory/add', {item: itemId});
+    return response.data;
+  },
+
+  async addItemToCharacterInventory(characterId: number, itemId: number, groupInventoryId: number | null = null) {
+    const parameters = {
+      item: itemId,
+      character: characterId,
+      groupInventoryId: groupInventoryId ?? null
+    }
+
+    const response = await client.post('/inventory/add', parameters);
+
+    return response.data;
+  },
+
+  async loanItemFromGroup(itemId: number, characterId: number) {
+    const response = await client.patch('/group-inventory/lend', {
+      groupInventory: itemId,
+      character: characterId,
+    });
+    return response.data;
+  },
+
+  async expendItem(inventoryItemId: number) {
+    const response = await client.patch('/inventory/expend', {
+      id: inventoryItemId
+    });
+    return response.data;
+  },
+
+  async returnItemToGroup(itemId: number, groupInventoryId: number) {
+    const response = await client.post('/group-inventory/add', {
+      item: itemId,
+      groupInventory: groupInventoryId
+    });
+    return response.data;
   }
 };

@@ -1,17 +1,36 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, ActivityIndicator } from 'react-native';
+import React, {useState, useEffect, useCallback} from 'react';
+import {View, Text, ScrollView, ActivityIndicator, Pressable, Alert} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import styles from '@/constants/Styles';
 import { apiService } from '@/services/api.service';
 import BackButton from "@/components/BackButton";
 import {GroupInventory} from "@/interfaces/groupInventory.interface";
+import {router} from "expo-router";
+import ItemRow from "@/components/ItemRow";
+import {Item} from "@/interfaces/item.interface";
+import CharacterSelectModal from "@/components/CharacterSelectModal";
+import {useCharacters} from "@/contexts/CharacterContext";
+import {useFocusEffect} from "@react-navigation/native";
 
 export default function GroupItemList() {
   const [groupInventory, setGroupInventory] = useState<GroupInventory[]>([]);
   const [loading, setLoading] = useState(true);
-
+  const [pressedId, setPressedId] = useState<number | null>(null);
+  const [showCharacterSelect, setShowCharacterSelect] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<Item | null>(null);
   const activeItems = groupInventory.filter(item => !item.expended);
-  const expendedItems = groupInventory.filter(item => item.expended);
+  const expendedItems = groupInventory.filter(item => item.expended)
+  const { characters } = useCharacters();
+  const [needsRefresh, setNeedsRefresh] = useState(false);
+
+  useFocusEffect(
+    useCallback(() => {
+      if (needsRefresh) {
+        loadItems();
+        setNeedsRefresh(false);
+      }
+    }, [needsRefresh])
+  );
 
   useEffect(() => {
     loadItems();
@@ -32,6 +51,39 @@ export default function GroupItemList() {
     }
   };
 
+  const handleAction = async (actionType: string, item: Item) => {
+    try {
+      switch (actionType) {
+        case 'loan':
+          setSelectedItem(item);
+          setShowCharacterSelect(true);
+          break;
+      }
+      setNeedsRefresh(true);
+    } catch (error) {
+      console.error('Action failed:', error);
+      Alert.alert('Error', 'Failed to perform action');
+    }
+  };
+
+  const handleItemPress = (itemId: number) => {
+    router.replace(`/(tabs)/item/${itemId}`);
+  };
+
+  const handleCharacterSelect = async (characterId: number) => {
+    if (!selectedItem) return;
+    console.log("Character: " + characterId)
+    try {
+      await apiService.loanItemFromGroup(selectedItem.id, characterId);
+
+      Alert.alert('Success', 'Item successfully added to your inventory');
+    } catch (error) {
+      console.error('Failed to add item to character inventory:', error);
+    } finally {
+      setSelectedItem(null);
+    }
+  };
+
   const renderInventoryTable = (items: GroupInventory[], title: string) => (
     <View style={styles.sectionContainer}>
       <Text style={styles.sectionTitle}>{title}</Text>
@@ -44,27 +96,16 @@ export default function GroupItemList() {
         </View>
 
         {items.map((groupItem) => (
-          <View key={groupItem.id} style={[
-            styles.tableRow,
-            groupItem.loaned && styles.loanedRow
-          ]}>
-            <Text style={[styles.tableCell, styles.nameColumn]}>
-              {groupItem.item.name}
-            </Text>
-            <Text style={[styles.tableCell, styles.typeColumn]}>
-              {groupItem.item.type.name}
-            </Text>
-            <Text style={[styles.tableCell, styles.sourceColumn]}>
-              {groupItem.item.source?.name || ''}
-            </Text>
-            <Text style={[styles.tableCell, styles.statusColumn]}>
-              {groupItem.loaned ? (
-                <Text style={styles.loanedText}>
-                  Loaned to {groupItem.character?.name || 'Unknown'}
-                </Text>
-              ) : 'Available'}
-            </Text>
-          </View>
+          <ItemRow
+            key={groupItem.id}
+            item={groupItem}
+            mode="group-inventory"
+            onPress={handleItemPress}
+            onPressIn={() => setPressedId(groupItem.id)}
+            onPressOut={() => setPressedId(null)}
+            pressedId={pressedId}
+            onAction={(actionType) => handleAction(actionType, groupItem.item)}
+          />
         ))}
       </ScrollView>
     </View>
@@ -91,6 +132,16 @@ export default function GroupItemList() {
           </>
         )}
       </View>
+
+      <CharacterSelectModal
+        visible={showCharacterSelect}
+        characters={characters}
+        onSelect={handleCharacterSelect}
+        onClose={() => {
+          setShowCharacterSelect(false);
+          setSelectedItem(null);
+        }}
+      />
     </View>
   );
 }

@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   },
   card: {
     fontFamily: 'Exo2_300Light',
-    fontSize: 18,
+    fontSize: 16,
     backgroundColor: 'rgba(255, 255, 255, 0.08)',
     borderRadius: 15,
     padding: 15,
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   text: {
     color: '#e4e4ff',
     fontFamily: 'Exo2_400Regular',
-    fontSize: 18,
+    fontSize: 16,
     lineHeight: 24,
   },
   welcomeText: {
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
   badgeText: {
     fontFamily: 'Orbitron_600SemiBold',
     color: '#b4b8ff',
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '500',
   },
   textArea: {
@@ -102,15 +102,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 8,
   },
-  label: {
-    fontFamily: 'Orbitron_600SemiBold',
-    color: '#b4b8ff',
-    fontSize: 18,
-    fontWeight: '500',
-  },
   description: {
     color: '#e4e4ff',
-    fontSize: 18,
+    fontSize: 16,
     lineHeight: 20,
     fontFamily: 'Exo2_400Regular',
   },
@@ -145,7 +139,7 @@ const styles = StyleSheet.create({
   backButtonText: {
     fontFamily: 'Orbitron_600SemiBold',
     color: '#fff',
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '600',
   },
   userInfoContainer: {
@@ -199,11 +193,11 @@ const styles = StyleSheet.create({
   tableHeader: {
     color: '#b4b8ff',
     fontWeight: '600',
-    fontSize: 18,
+    fontSize: 16,
   },
   tableCell: {
     color: '#e4e4ff',
-    fontSize: 18,
+    fontSize: 16,
   },
   nameColumn: {
     flex: 2,
@@ -226,7 +220,7 @@ const styles = StyleSheet.create({
   },
   modalCloseButtonText: {
     color: '#fff',
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '600',
   },
   filterButton: {
@@ -243,7 +237,7 @@ const styles = StyleSheet.create({
   },
   filterButtonText: {
     color: '#e4e4ff',
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: 'Orbitron_600SemiBold',
   },
   selectContainer: {
@@ -290,7 +284,7 @@ const styles = StyleSheet.create({
   },
   selectButtonText: {
     color: '#e4e4ff',
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: 'Exo2_400Regular',
   },
   modalContainer: {
@@ -326,7 +320,7 @@ const styles = StyleSheet.create({
   },
   modalItemText: {
     color: '#e4e4ff',
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: 'Exo2_400Regular',
   },
   modalItemTextSelected: {
@@ -365,22 +359,22 @@ const styles = StyleSheet.create({
   },
   characterName: {
     color: '#e4e4ff',
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: 'Orbitron_600SemiBold',
   },
   characterType: {
     color: '#b4b8ff',
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: 'Exo2_400Regular',
   },
   characterTier: {
     color: '#b4b8ff',
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: 'Exo2_400Regular',
   },
   characterDescription: {
     color: '#e4e4ff',
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: 'Exo2_400Regular',
     marginTop: 5,
   },
@@ -403,6 +397,55 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
   },
+  buttonText: {
+    color: '#ffffff',
+    fontFamily: 'Orbitron_600SemiBold',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  scrollContainer: {
+    flex: 1,
+    width: '100%',
+  },
+  detailCard: {
+    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+    borderRadius: 15,
+    padding: 20,
+    margin: 10,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
+  },
+  detailRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(255, 255, 255, 0.1)',
+  },
+  label: {
+    fontFamily: 'Orbitron_600SemiBold',
+    color: '#b4b8ff',
+    fontSize: 16,
+  },
+  value: {
+    color: '#e4e4ff',
+    fontSize: 16,
+    fontFamily: 'Exo2_400Regular',
+  },
+  errorText: {
+    color: '#ff4444',
+    fontSize: 16,
+    textAlign: 'center',
+  },
+  tableRowPressed: {
+    backgroundColor: 'rgba(61, 77, 183, 0.3)',
+  },
+  itemInfo: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+  },
   actionButton: {
     backgroundColor: '#3d4db7',
     paddingVertical: 8,
@@ -411,11 +454,33 @@ const styles = StyleSheet.create({
     minWidth: 80,
     alignItems: 'center',
   },
-  buttonText: {
-    color: '#ffffff',
-    fontFamily: 'Orbitron_600SemiBold',
-    fontSize: 18,
-    fontWeight: '600',
+  secondaryButton: {
+    backgroundColor: '#2d3462', // darker blue
+    borderWidth: 1,
+    borderColor: '#3d4db7',
+  },
+  dangerButton: {
+    backgroundColor: '#dc3545', // red color for dangerous actions
+  },
+  pressable: {
+    flex: 1,
+  },
+  actionButtons: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    gap: 8,
+    paddingHorizontal: 10,
+    paddingBottom: 8,
+  },
+  rowContainer: {
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(255, 255, 255, 0.1)',
+  },
+  rowContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 10,
   },
 });
 

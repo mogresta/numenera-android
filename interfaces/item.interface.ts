@@ -1,5 +1,3 @@
-import Character from "@/interfaces/character.interface";
-
 interface TypeObject {
   id: number;
   name: string;
@@ -30,7 +28,12 @@ export interface Item {
   source?: SourceObject;
 }
 
-export interface ItemResponse {
+export interface ItemsResponse {
   items: Item[];
+  message?: string;
+}
+
+export interface ItemResponse {
+  item: Item;
   message?: string;
 }

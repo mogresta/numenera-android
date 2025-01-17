@@ -1,4 +1,4 @@
-import {Text, View, Pressable, ActivityIndicator, Alert} from 'react-native';
+import {Text, View, Pressable, ActivityIndicator, Alert, ScrollView} from 'react-native';
 import React from 'react';
 import styles from '../constants/Styles';
 import UserData from '@/components/UserData';
@@ -21,7 +21,7 @@ const UserProfile = () => {
   }
 
   const handleEditProfile = () => {
-    router.push('/(tabs)/user-update/[id]');
+    router.replace('/(tabs)/user-update/[id]');
   };
 
   const handleLogout = async () => {
@@ -35,12 +35,16 @@ const UserProfile = () => {
     }
   }
 
+  const handleShowCharactersTable = () => {
+    router.replace('/(tabs)/characters');
+  }
+
   const handleShowItemsTable = () => {
-    router.push('/(tabs)/items');
+    router.replace('/(tabs)/items');
   }
 
   const handleGroupInventoryTable = () => {
-    router.push('/(tabs)/group-items');
+    router.replace('/(tabs)/group-items');
   }
 
   return (
@@ -49,6 +53,7 @@ const UserProfile = () => {
         colors={['#1a2151', '#0a0f2d']}
         style={styles.background}
       />
+      <ScrollView style={styles.scrollContainer}>
       <View style={styles.contentContainer}>
         <View style={styles.userInfoContainer}>
           <Text style={styles.title}>User Profile</Text>
@@ -69,7 +74,12 @@ const UserProfile = () => {
         </View>
         <View style={styles.userInfoContainer}>
           <Text style={styles.title}>Characters</Text>
-          <UserCharacters />
+          <Pressable
+            style={styles.buttonContainer}
+            onPress={handleShowCharactersTable}
+          >
+            <Text style={styles.buttonText}>All Characters</Text>
+          </Pressable>
         </View>
         <View style={styles.userInfoContainer}>
           <Text style={styles.title}>Items</Text>
@@ -90,6 +100,7 @@ const UserProfile = () => {
           </Pressable>
         </View>
       </View>
+        </ScrollView>
     </View>
   );
 };

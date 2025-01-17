@@ -1,31 +1,22 @@
 import React, {useCallback, useState} from 'react';
-import {View, Text, ActivityIndicator, Pressable, Alert, StyleSheet, Dimensions} from 'react-native';
+import {View, Text, ActivityIndicator, Pressable, Alert } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import {router} from 'expo-router';
+import { useCharacterEdit, useCharacters} from '@/contexts/CharacterContext';
 import styles from '@/constants/Styles';
 import { useUser } from '@/contexts/UserContext';
 import Character from '@/interfaces/character.interface';
-import { useCharacterEdit } from '@/contexts/CharacterContext';
 import {apiService} from "@/services/api.service";
 import {CharacterTypeNames, CharacterTypes} from "@/enums/characterType.enum";
 
 const UserCharacters = () => {
   const { user } = useUser();
-  const [characters, setCharacters] = useState<Character[]>([]);
+  const { setCharacters, characters } = useCharacters();
+  const { setEditingCharacter } = useCharacterEdit();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { setEditingCharacter } = useCharacterEdit();
-  const screenWidth = Dimensions.get('window').width;
 
-  useFocusEffect(
-    useCallback(() => {
-      if (user?.id) {
-        loadCharacters();
-      }
-    }, [user?.id])
-  );
-
-  const loadCharacters = async () => {
+  const loadCharacters = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -40,17 +31,25 @@ const UserCharacters = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user?.id, setCharacters]);
+
+  useFocusEffect(
+    useCallback(() => {
+      if (user?.id) {
+        loadCharacters();
+      }
+    }, [user?.id, loadCharacters])
+  );
 
   const handleInventoryPress = (character: Character) => {
     if (!character?.id) return;
     setEditingCharacter(character);
-    router.push('/(tabs)/character-inventory/[id]');
+    router.replace('/(tabs)/character-inventory/[id]');
   };
 
   const handleUpdatePress = (character: Character) => {
     setEditingCharacter(character);
-    router.push('/(tabs)/character-update/[id]');
+    router.replace('/(tabs)/character-update/[id]');
   }
 
   const handleDeletePress = async (characterId: number) => {
@@ -138,7 +137,7 @@ const UserCharacters = () => {
       ))}
       <Pressable
         style={styles.buttonContainer}
-        onPress={() => router.push('/(tabs)/character-create')}
+        onPress={() => router.replace('/(tabs)/character-create')}
       >
         <Text style={styles.buttonText}>Create New Character</Text>
       </Pressable>
